@@ -10,9 +10,19 @@
 		"title": "{{appTitle}}",
 		"description": "{{appDescription}}",
 		"sourceTemplate": {
-			"id": "hanatemplates.basicSAPUI5ApplicationProject",
-			"version": "0.0.0"
-		}
+  "id": "hanatemplates.basicSAPUI5ApplicationProject",
+  "version": "0.0.0"
+},
+"dataSources": {
+  "data.xsodata": {
+    "uri": "/xsodata/data.xsodata/",
+    "type": "OData",
+    "settings": {
+      "odataVersion": "2.0"
+    }
+  }
+}
+
 	},
 
 	"sap.ui": {
@@ -58,40 +68,124 @@
 			"cozy": true
 		},
 		"models": {
-			"i18n": {
-				"type": "sap.ui.model.resource.ResourceModel",
-				"settings": {
-					"bundleName": "forecast.html.i18n.i18n"
-				}
-			}
+	"i18n": {
+		"type": "sap.ui.model.resource.ResourceModel",
+		"settings": {
+			"bundleName": "forecast.html.i18n.i18n"
+		}
+	},
+	"odata": {
+		"type": "sap.ui.model.odata.v2.ODataModel",
+		"preload": false,
+		"settings": {
+			"defaultOperationMode": "Server",
+			"defaultBindingMode": "Default",
+			"defaultCountMode": "Request",
+			"useBatch": false
 		},
+		"dataSource": "data.xsodata"
+	},
+	"config": {
+		"type": "sap.ui.model.json.JSONModel",
+		"preload": true,
+		"uri": "model/config.json"
+	},
+	"default": {
+		"type": "sap.ui.model.json.JSONModel",
+		"preload": true,
+		"uri": "model/default.json"
+	},
+	"apl_forecast": {
+	"type": "sap.ui.model.json.JSONModel",
+	"preload": true,
+	"uri": "model/algorithms/apl/forecast.json"
+},
+	"pal_auto_arima": {
+	"type": "sap.ui.model.json.JSONModel",
+	"preload": true,
+	"uri": "model/algorithms/pal/auto_arima.json"
+},
+	"pal_auto_smoothing": {
+	"type": "sap.ui.model.json.JSONModel",
+	"preload": true,
+	"uri": "model/algorithms/pal/auto_smoothing.json"
+},
+	"pal_seasonality_test": {
+	"type": "sap.ui.model.json.JSONModel",
+	"preload": true,
+	"uri": "model/algorithms/pal/seasonality_test.json"
+}
+
+
+},
 		"resources": {
 			"css": [{
 				"uri": "css/style.css"
 			}]
 		},
 		"routing": {
-			"config": {
-				"routerClass": "sap.m.routing.Router",
-				"viewType": "XML",
-				"async": true,
-				"viewPath": "forecast.html.view",
-				"controlAggregation": "pages",
-				"controlId": "idAppControl"
-			},
-			"routes": [{
-				"name": "RouteView1",
-				"pattern": "RouteView1",
-				"target": ["TargetView1"]
-			}],
-			"targets": {
-				"TargetView1": {
-					"viewType": "XML",
-					"transition": "slide",
-					"clearAggregation": true,
-					"viewName": "View1"
-				}
-			}
-		}
+	"config": {
+		"routerClass": "sap.m.routing.Router",
+		"viewType": "XML",
+		"async": true,
+		"viewPath": "forecast.html.view",
+		"controlAggregation": "pages",
+		"controlId": "idAppControl"
+	},
+	"routes": [
+	{
+		"name": "home",
+		"pattern": "",
+		"target": "demo"
+	},
+	{
+	"name": "forecast",
+	"pattern": "forecast",
+	"target": "forecast"
+	},
+	{
+	"name": "auto_arima",
+	"pattern": "auto_arima",
+	"target": "auto_arima"
+	},
+	{
+	"name": "auto_smoothing",
+	"pattern": "auto_smoothing",
+	"target": "auto_smoothing"
+	},
+	{
+	"name": "seasonality_test",
+	"pattern": "seasonality_test",
+	"target": "seasonality_test"
 	}
+
+
+],
+	"targets": {
+	"demo": {
+	"clearAggregation": true,
+	"viewName": "demo",
+	"viewLevel": 1
+			},
+	"forecast": {
+	"clearAggregation": true,
+	"viewName": "algorithms.apl.forecast"
+			},
+	"auto_arima": {
+	"clearAggregation": true,
+	"viewName": "algorithms.pal.auto_arima"
+			},
+			"auto_smoothing": {
+	"clearAggregation": true,
+	"viewName": "algorithms.pal.auto_smoothing"
+			},
+			"seasonality_test": {
+	"clearAggregation": true,
+	"viewName": "algorithms.pal.seasonality_test"
+			}
+
+
+}
+}
+}
 }
